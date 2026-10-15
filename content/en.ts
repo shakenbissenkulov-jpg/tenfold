@@ -25,7 +25,11 @@ export const en: Content = {
     sub: "Tenfold builds custom software and assembles engineering teams for startups, growing businesses and enterprises — scoped around the outcome you need, not the hours we bill.",
     cta: "Book a discovery call",
     cta2: "Hire engineers",
-    note: "Free 30-minute call · No commitment · Reply within 1 business day",
+    facts: [
+      { v: "30 min", k: "Free discovery call" },
+      { v: "1 day", k: "Reply to your request" },
+      { v: "0", k: "Commitments" },
+    ],
   },
   card: {
     aria: "Illustrative example of how a business goal becomes a delivery plan",

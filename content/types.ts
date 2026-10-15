@@ -15,7 +15,14 @@ export interface Content {
     langLabel: string;
     kzSoon: string;
   };
-  hero: { eyebrow: string; title: string; sub: string; cta: string; cta2: string; note: string };
+  hero: {
+    eyebrow: string;
+    title: string;
+    sub: string;
+    cta: string;
+    cta2: string;
+    facts: { v: string; k: string }[];
+  };
   card: {
     aria: string;
     title: string;

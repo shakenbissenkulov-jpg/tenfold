@@ -10,7 +10,7 @@ const NEEDS: NeedId[] = ["build", "team", "automate", "unsure"];
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const inputCls =
-  "min-h-12 w-full rounded-xl border-[1.5px] bg-white px-3.5 text-base text-ink placeholder:text-[#8a909b] focus:border-ink focus:outline-none";
+  "min-h-12 w-full rounded-none border-[1.5px] bg-white px-3.5 text-base text-ink placeholder:text-[#8a909b] focus:border-ink focus:outline-none";
 
 export function LeadForm({ c }: { c: Content }) {
   const f = c.form;
@@ -62,7 +62,7 @@ export function LeadForm({ c }: { c: Content }) {
   if (status === "success") {
     return (
       <div role="status" className="flex min-h-[420px] flex-col items-start justify-center">
-        <div aria-hidden="true" className="flex h-14 w-14 items-center justify-center rounded-2xl bg-accent text-ink">
+        <div aria-hidden="true" className="flex h-14 w-14 items-center justify-center rounded-none bg-accent text-ink">
           <Check className="h-7 w-7" />
         </div>
         <h3 className="mt-7 font-display text-[28px] font-medium tracking-[-0.02em]">
@@ -72,7 +72,7 @@ export function LeadForm({ c }: { c: Content }) {
         <button
           type="button"
           onClick={reset}
-          className="mt-7 min-h-11 cursor-pointer rounded-full border border-ink bg-transparent px-5 font-semibold text-ink hover:bg-paper"
+          className="mt-7 min-h-11 cursor-pointer rounded-none border border-ink bg-transparent px-5 font-semibold text-ink hover:bg-paper"
         >
           {f.okAgain}
         </button>
@@ -93,7 +93,7 @@ export function LeadForm({ c }: { c: Content }) {
                 type="button"
                 aria-pressed={on}
                 onClick={() => setNeed(id)}
-                className={`min-h-11 cursor-pointer rounded-full border px-4 text-[15px] font-semibold transition-colors ${on ? "border-ink bg-ink text-white" : "border-line-strong bg-white text-ink hover:border-ink"}`}
+                className={`min-h-11 cursor-pointer rounded-none border px-4 text-[15px] font-semibold transition-colors ${on ? "border-ink bg-ink text-white" : "border-line-strong bg-white text-ink hover:border-ink"}`}
               >
                 {f.needs[id]}
               </button>
@@ -164,7 +164,7 @@ export function LeadForm({ c }: { c: Content }) {
           placeholder={f.messagePh}
           value={values.message}
           onChange={set("message")}
-          className="w-full resize-y rounded-xl border-[1.5px] border-line-strong bg-white px-3.5 py-3 text-base text-ink placeholder:text-[#8a909b] focus:border-ink focus:outline-none"
+          className="w-full resize-y rounded-none border-[1.5px] border-line-strong bg-white px-3.5 py-3 text-base text-ink placeholder:text-[#8a909b] focus:border-ink focus:outline-none"
         />
       </div>
 
@@ -176,7 +176,7 @@ export function LeadForm({ c }: { c: Content }) {
 
       <div aria-live="polite">
         {status === "error" && (
-          <p role="alert" className="m-0 rounded-xl bg-[#FEF3F2] px-4 py-3 text-sm text-error">
+          <p role="alert" className="m-0 rounded-none bg-[#FEF3F2] px-4 py-3 text-sm text-error">
             {f.errGeneric}
           </p>
         )}
@@ -185,7 +185,7 @@ export function LeadForm({ c }: { c: Content }) {
       <button
         type="submit"
         disabled={status === "sending"}
-        className="group inline-flex min-h-14 cursor-pointer items-center justify-center gap-2.5 rounded-full border-0 bg-accent px-5 text-[17px] font-bold text-ink transition-opacity disabled:cursor-wait disabled:opacity-70"
+        className="group inline-flex min-h-14 cursor-pointer items-center justify-center gap-2.5 rounded-none border-0 bg-accent px-5 text-[17px] font-bold text-ink transition-opacity disabled:cursor-wait disabled:opacity-70"
       >
         {status === "sending" ? f.sending : f.submit}
         {status !== "sending" && <ArrowRight />}

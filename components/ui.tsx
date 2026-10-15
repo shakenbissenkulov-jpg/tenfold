@@ -45,7 +45,7 @@ export function Logo({ onDark = false }: { onDark?: boolean }) {
     <span className="flex items-center gap-2.5">
       <span
         aria-hidden="true"
-        className={`inline-flex h-[34px] w-[34px] items-center justify-center rounded-lg font-display text-[13px] font-semibold ${onDark ? "bg-white text-ink" : "bg-ink text-accent"}`}
+        className={`inline-flex h-[34px] w-[34px] items-center justify-center rounded-none font-display text-[13px] font-semibold ${onDark ? "bg-white text-ink" : "bg-ink text-accent"}`}
       >
         10×
       </span>
