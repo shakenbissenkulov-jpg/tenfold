@@ -1,0 +1,56 @@
+@import "tailwindcss";
+@import "./fonts.css";
+
+@theme {
+  --color-ink: #0b0d12;
+  --color-ink-2: #171a21;
+  --color-paper: #f4f4f2;
+  --color-body: #3d424c;
+  --color-muted: #545a66;
+  --color-line: #e2e3e6;
+  --color-line-strong: #d3d6db;
+  --color-accent: #ff5a1f;
+  --color-on-dark: #c3c7cf;
+  --color-on-dark-2: #a3a9b5;
+  --color-dark-line: #262a33;
+  --color-dark-line-2: #3a3f4a;
+  --color-error: #b42318;
+
+  --font-display: "Unbounded", system-ui, sans-serif;
+  --font-sans: "Manrope", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
+.dark :focus-visible {
+  outline-color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
