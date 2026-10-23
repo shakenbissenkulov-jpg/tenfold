@@ -86,7 +86,7 @@ export function Landing({ c }: { c: Content }) {
 
   return (
     <>
-      <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-white">
+      <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-[10px] focus:bg-ink focus:px-4 focus:py-2 focus:text-white">
         {c.skip}
       </a>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
@@ -100,10 +100,10 @@ export function Landing({ c }: { c: Content }) {
             <h1 className="mt-5 max-w-[980px] text-[clamp(40px,5.6vw,80px)] font-normal leading-[1.04] tracking-[-0.03em] [text-wrap:balance]">{c.heroTitle}</h1>
             <p className="mt-7 max-w-[720px] text-[clamp(17px,1.4vw,19px)] text-on-dark">{c.heroSub}</p>
             <div className="mt-10 flex flex-wrap justify-center gap-3">
-              <a href="#contact" className="inline-flex min-h-[52px] items-center gap-2.5 rounded-full bg-white px-[26px] font-medium text-ink hover:bg-[#E9E9E6] hover:text-ink">
+              <a href="#contact" className="inline-flex min-h-[52px] items-center gap-2.5 rounded-[10px] bg-white px-[26px] font-medium text-ink hover:bg-[#E9E9E6] hover:text-ink">
                 {c.heroCta} <span aria-hidden="true">→</span>
               </a>
-              <a href="#process" className="inline-flex min-h-[52px] items-center rounded-full border border-white/30 px-[26px] text-white hover:bg-white/10 hover:text-white">
+              <a href="#process" className="inline-flex min-h-[52px] items-center rounded-[10px] border border-white/30 px-[26px] text-white hover:bg-white/10 hover:text-white">
                 {c.heroCta2}
               </a>
             </div>
@@ -111,7 +111,7 @@ export function Landing({ c }: { c: Content }) {
             <figure aria-label={c.trackerAria} className="m-0 mt-[clamp(64px,8vw,104px)] w-full max-w-[760px] rounded-2xl border border-white/12 bg-white/6 px-7 py-6 text-left">
               <div className="flex items-center justify-between gap-3 text-[13px] text-on-dark-2">
                 <span>{c.trackerTitle}</span>
-                <span className="rounded-full border border-white/20 px-2.5 py-0.5">{c.example}</span>
+                <span className="rounded-md border border-white/20 px-2.5 py-0.5">{c.example}</span>
               </div>
               <div className="mt-3.5">
                 {c.hyps.map((h, i) => {
@@ -187,7 +187,7 @@ export function Landing({ c }: { c: Content }) {
               {c.sla.map((r, i) => (
                 <div role="row" key={r.name} className="flex flex-wrap items-baseline gap-x-6 gap-y-2 border-b border-line-2 py-[22px]">
                   <span role="cell" className="flex w-[200px] flex-none items-center gap-2.5">
-                    <span className={`rounded-full px-2.5 py-0.5 text-[13px] font-medium ${SLA_STYLE[i].badge}`}>{SLA_STYLE[i].code}</span>
+                    <span className={`rounded-md px-2.5 py-0.5 text-[13px] font-medium ${SLA_STYLE[i].badge}`}>{SLA_STYLE[i].code}</span>
                     <span className="text-[17px] font-medium">{r.name}</span>
                   </span>
                   <span role="cell" className="min-w-[260px] flex-1 text-[15px] text-muted">{r.desc}</span>

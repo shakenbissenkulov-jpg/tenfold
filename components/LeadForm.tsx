@@ -60,7 +60,7 @@ export function LeadForm({ c }: { c: Content }) {
         </div>
         <h3 className="mt-6 text-[30px] font-normal tracking-[-0.02em]">{sentName ? `${c.thanks}, ${sentName}.` : `${c.thanks}.`}</h3>
         <p className="mt-2.5 text-muted">{c.okBody}</p>
-        <button type="button" onClick={reset} className="mt-6 min-h-11 cursor-pointer rounded-full border border-ink bg-white px-5 text-ink hover:bg-ink hover:text-white">
+        <button type="button" onClick={reset} className="mt-6 min-h-11 cursor-pointer rounded-[10px] border border-ink bg-white px-5 text-ink hover:bg-ink hover:text-white">
           {c.okAgain}
         </button>
       </div>
@@ -80,7 +80,7 @@ export function LeadForm({ c }: { c: Content }) {
                 type="button"
                 aria-pressed={on}
                 onClick={() => setNeed(id)}
-                className={`min-h-10 cursor-pointer rounded-full border px-4 text-sm transition-colors ${on ? "border-ink bg-ink text-white" : "border-field bg-white text-ink hover:border-ink"}`}
+                className={`min-h-10 cursor-pointer rounded-lg border px-4 text-sm transition-colors ${on ? "border-ink bg-ink text-white" : "border-field bg-white text-ink hover:border-ink"}`}
               >
                 {c.needs[id]}
               </button>
@@ -124,7 +124,7 @@ export function LeadForm({ c }: { c: Content }) {
         )}
       </div>
 
-      <button type="submit" disabled={status === "sending"} className="inline-flex min-h-[52px] cursor-pointer items-center justify-center gap-2.5 rounded-full border-0 bg-ink px-5 text-base font-medium text-white hover:bg-ink-2 disabled:cursor-wait disabled:opacity-70">
+      <button type="submit" disabled={status === "sending"} className="inline-flex min-h-[52px] cursor-pointer items-center justify-center gap-2.5 rounded-[10px] border-0 bg-ink px-5 text-base font-medium text-white hover:bg-ink-2 disabled:cursor-wait disabled:opacity-70">
         {status === "sending" ? c.fSending : c.fSubmit}
         {status !== "sending" && <span aria-hidden="true">→</span>}
       </button>

@@ -11,7 +11,7 @@ export function Process({ c }: { c: Content }) {
 
   return (
     <>
-      <div role="group" aria-label={c.processTitle} className="mx-auto mt-10 flex w-fit max-w-full flex-wrap justify-center gap-1 rounded-[28px] bg-pill p-1">
+      <div role="group" aria-label={c.processTitle} className="mx-auto mt-10 flex w-fit max-w-full flex-wrap justify-center gap-1 rounded-[14px] bg-pill p-1">
         {IDS.map((id) => {
           const on = id === path;
           return (
@@ -20,7 +20,7 @@ export function Process({ c }: { c: Content }) {
               type="button"
               aria-pressed={on}
               onClick={() => setPath(id)}
-              className={`min-h-11 cursor-pointer rounded-full px-[22px] py-2 text-[15px] transition-colors ${on ? "bg-white text-ink shadow-[0_1px_3px_rgba(13,16,22,0.12)]" : "text-muted hover:text-ink"}`}
+              className={`min-h-11 cursor-pointer rounded-[10px] px-[22px] py-2 text-[15px] transition-colors ${on ? "bg-white text-ink shadow-[0_1px_3px_rgba(13,16,22,0.12)]" : "text-muted hover:text-ink"}`}
             >
               {c.paths[id].tab}
             </button>
@@ -39,7 +39,7 @@ export function Process({ c }: { c: Content }) {
             <div className="text-[15px] font-medium">{p.doneQ}</div>
             <div className="mt-1.5 text-[15px] text-body">{p.doneA}</div>
           </div>
-          <a href="#contact" className="mt-7 inline-flex min-h-12 items-center gap-2.5 rounded-full bg-ink px-[22px] font-medium text-white hover:bg-ink-2 hover:text-white">
+          <a href="#contact" className="mt-7 inline-flex min-h-12 items-center gap-2.5 rounded-[10px] bg-ink px-[22px] font-medium text-white hover:bg-ink-2 hover:text-white">
             {p.cta} <span aria-hidden="true">→</span>
           </a>
         </div>

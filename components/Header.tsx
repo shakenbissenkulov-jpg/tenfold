@@ -35,14 +35,14 @@ export function Header({ c }: { c: Content }) {
           <div className="flex items-center justify-end gap-5">
             <a href="#reviews" className={side}>{c.navReviews}</a>
             <a href="#faq" className={side}>FAQ</a>
-            <div role="group" aria-label={c.langLabel} className="flex gap-0.5 rounded-full bg-pill p-[3px]">
+            <div role="group" aria-label={c.langLabel} className="flex gap-0.5 rounded-[10px] bg-pill p-[3px]">
               {LANGS.map((l) =>
                 l.lang === c.lang ? (
-                  <span key={l.code} aria-current="true" className="inline-flex min-h-[30px] min-w-9 items-center justify-center rounded-full bg-white px-2 text-xs font-medium text-ink">
+                  <span key={l.code} aria-current="true" className="inline-flex min-h-[30px] min-w-9 items-center justify-center rounded-[7px] bg-white px-2 text-xs font-medium text-ink">
                     {l.code}
                   </span>
                 ) : (
-                  <Link key={l.code} href={homePath[l.lang]} hrefLang={l.hreflang} className="inline-flex min-h-[30px] min-w-9 items-center justify-center rounded-full px-2 text-xs font-medium text-muted hover:text-ink">
+                  <Link key={l.code} href={homePath[l.lang]} hrefLang={l.hreflang} className="inline-flex min-h-[30px] min-w-9 items-center justify-center rounded-[7px] px-2 text-xs font-medium text-muted hover:text-ink">
                     {l.code}
                   </Link>
                 ),
@@ -50,7 +50,7 @@ export function Header({ c }: { c: Content }) {
             </div>
             <a
               href="#contact"
-              className="hidden min-h-10 items-center whitespace-nowrap rounded-full bg-ink px-[18px] text-sm text-white hover:bg-ink-2 hover:text-white sm:inline-flex"
+              className="hidden min-h-10 items-center whitespace-nowrap rounded-[10px] bg-ink px-[18px] text-sm text-white hover:bg-ink-2 hover:text-white sm:inline-flex"
             >
               {c.navCta}
             </a>
