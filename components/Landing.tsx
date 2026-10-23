@@ -3,6 +3,7 @@ import type { Content } from "@/content/types";
 import { privacyPath, site } from "@/content/site";
 import { Faq } from "./Faq";
 import { Header } from "./Header";
+import { Logo } from "./Logo";
 import { LeadForm } from "./LeadForm";
 import { Process } from "./Process";
 
@@ -320,8 +321,8 @@ export function Landing({ c }: { c: Content }) {
 
       <footer className="dark border-t border-white/10 bg-ink text-sm text-on-dark-2">
         <div className={`${wrap} flex flex-wrap items-center justify-between gap-6 py-10`}>
-          <div className="flex flex-wrap items-baseline gap-2">
-            <span className="text-lg font-medium tracking-[-0.02em] text-white">Tenfold</span>
+          <div className="flex flex-wrap items-center gap-2">
+            <Logo height={20} onDark />
             <span className="ml-3">{c.footCity}</span>
           </div>
           <div className="flex flex-wrap gap-6">

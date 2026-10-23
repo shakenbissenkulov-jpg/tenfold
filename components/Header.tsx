@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Content, Lang } from "@/content/types";
 import { homePath } from "@/content/site";
+import { Logo } from "./Logo";
 
 const LANGS: { code: string; lang: Lang; hreflang: string }[] = [
   { code: "RU", lang: "ru", hreflang: "ru" },
@@ -28,9 +29,8 @@ export function Header({ c }: { c: Content }) {
             <a href="#services" className={side}>{c.navServices}</a>
             <a href="#guarantees" className={side}>{c.navGuarantees}</a>
           </div>
-          <Link href={homePath[c.lang]} aria-label="Tenfold" className="flex items-baseline gap-2 text-ink">
-            <span className="text-xl font-medium tracking-[-0.02em]">Tenfold</span>
-            <span className="text-xs font-medium text-accent">10×</span>
+          <Link href={homePath[c.lang]} aria-label="Tenfold" className="flex items-center text-ink">
+            <Logo height={22} />
           </Link>
           <div className="flex items-center justify-end gap-5">
             <a href="#reviews" className={side}>{c.navReviews}</a>

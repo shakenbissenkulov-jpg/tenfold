@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Content } from "@/content/types";
 import { homePath } from "@/content/site";
+import { Logo } from "./Logo";
 
 /** TODO before launch: replace with a privacy policy reviewed by a lawyer (Law of the RK "On Personal Data and Their Protection"). */
 export function PrivacyPage({ c }: { c: Content }) {
@@ -8,9 +9,8 @@ export function PrivacyPage({ c }: { c: Content }) {
     <>
       <header className="border-b border-line">
         <div className="mx-auto flex h-[68px] max-w-[1320px] items-center px-5 sm:px-8">
-          <Link href={homePath[c.lang]} aria-label="Tenfold" className="flex items-baseline gap-2 text-ink">
-            <span className="text-xl font-medium tracking-[-0.02em]">Tenfold</span>
-            <span className="text-xs font-medium text-accent">10×</span>
+          <Link href={homePath[c.lang]} aria-label="Tenfold" className="flex items-center text-ink">
+            <Logo height={22} />
           </Link>
         </div>
       </header>
