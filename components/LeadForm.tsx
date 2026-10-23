@@ -3,48 +3,43 @@
 import Link from "next/link";
 import { useRef, useState, type FormEvent } from "react";
 import type { Content, NeedId } from "@/content/types";
-import { ArrowRight, Check } from "./ui";
+import { privacyPath } from "@/content/site";
 
 type Status = "idle" | "sending" | "success" | "error";
-const NEEDS: NeedId[] = ["build", "team", "automate", "unsure"];
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const NEEDS: NeedId[] = ["idea", "problem", "know", "team"];
 
-const inputCls =
-  "min-h-12 w-full rounded-xl border-[1.5px] bg-white px-3.5 text-base text-ink placeholder:text-[#8a909b] focus:border-ink focus:outline-none";
+const field =
+  "min-h-12 w-full rounded-[10px] border bg-paper px-3.5 text-base text-ink placeholder:text-faint focus:border-ink focus:outline-none";
 
 export function LeadForm({ c }: { c: Content }) {
-  const f = c.form;
-  const [need, setNeed] = useState<NeedId>("build");
-  const [values, setValues] = useState({ name: "", company: "", email: "", phone: "", message: "", website: "" });
+  const [need, setNeed] = useState<NeedId>("idea");
+  const [v, setV] = useState({ name: "", company: "", contact: "", message: "", website: "" });
   const [tried, setTried] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const [sentName, setSentName] = useState("");
   const nameRef = useRef<HTMLInputElement>(null);
-  const emailRef = useRef<HTMLInputElement>(null);
+  const contactRef = useRef<HTMLInputElement>(null);
 
-  const nameOk = values.name.trim().length > 0;
-  const emailOk = EMAIL_RE.test(values.email.trim());
+  const nameOk = v.name.trim().length > 0;
+  const contactOk = v.contact.trim().length >= 5;
   const errName = tried && !nameOk;
-  const errEmail = tried && !emailOk;
-
-  const set = (k: keyof typeof values) => (e: { target: { value: string } }) =>
-    setValues((v) => ({ ...v, [k]: e.target.value }));
+  const errContact = tried && !contactOk;
+  const set = (k: keyof typeof v) => (e: { target: { value: string } }) => setV((s) => ({ ...s, [k]: e.target.value }));
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
     setTried(true);
     if (!nameOk) return nameRef.current?.focus();
-    if (!emailOk) return emailRef.current?.focus();
-
+    if (!contactOk) return contactRef.current?.focus();
     setStatus("sending");
     try {
       const res = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...values, need, lang: c.lang }),
+        body: JSON.stringify({ ...v, need, lang: c.lang }),
       });
       if (!res.ok) throw new Error(String(res.status));
-      setSentName(values.name.trim().split(/\s+/)[0] ?? "");
+      setSentName(v.name.trim().split(/\s+/)[0] ?? "");
       setStatus("success");
     } catch {
       setStatus("error");
@@ -52,38 +47,30 @@ export function LeadForm({ c }: { c: Content }) {
   }
 
   function reset() {
-    setValues({ name: "", company: "", email: "", phone: "", message: "", website: "" });
+    setV({ name: "", company: "", contact: "", message: "", website: "" });
     setTried(false);
     setStatus("idle");
   }
 
-  const privacyHref = c.lang === "ru" ? "/privacy" : "/en/privacy";
-
   if (status === "success") {
     return (
-      <div role="status" className="flex min-h-[420px] flex-col items-start justify-center">
-        <div aria-hidden="true" className="flex h-14 w-14 items-center justify-center rounded-2xl bg-accent text-ink">
-          <Check className="h-7 w-7" />
+      <div role="status" className="flex min-h-[440px] flex-col items-start justify-center">
+        <div aria-hidden="true" className="flex h-[52px] w-[52px] items-center justify-center rounded-full bg-accent">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
         </div>
-        <h3 className="mt-7 font-display text-[28px] font-medium tracking-[-0.02em]">
-          {sentName ? `${f.okThanks}, ${sentName}.` : `${f.okThanks}!`}
-        </h3>
-        <p className="mt-3 text-body">{f.okBody}</p>
-        <button
-          type="button"
-          onClick={reset}
-          className="mt-7 min-h-11 cursor-pointer rounded-full border border-ink bg-transparent px-5 font-semibold text-ink hover:bg-paper"
-        >
-          {f.okAgain}
+        <h3 className="mt-6 text-[30px] font-normal tracking-[-0.02em]">{sentName ? `${c.thanks}, ${sentName}.` : `${c.thanks}.`}</h3>
+        <p className="mt-2.5 text-muted">{c.okBody}</p>
+        <button type="button" onClick={reset} className="mt-6 min-h-11 cursor-pointer rounded-full border border-ink bg-white px-5 text-ink hover:bg-ink hover:text-white">
+          {c.okAgain}
         </button>
       </div>
     );
   }
 
   return (
-    <form noValidate onSubmit={onSubmit} aria-label={f.label} className="flex flex-col gap-[22px]">
+    <form noValidate onSubmit={onSubmit} aria-label={c.formLabel} className="flex flex-col gap-5">
       <fieldset className="m-0 border-0 p-0">
-        <legend className="p-0 text-[15px] font-bold">{f.need}</legend>
+        <legend className="p-0 text-[15px] font-medium">{c.fNeed}</legend>
         <div className="mt-3 flex flex-wrap gap-2">
           {NEEDS.map((id) => {
             const on = need === id;
@@ -93,109 +80,58 @@ export function LeadForm({ c }: { c: Content }) {
                 type="button"
                 aria-pressed={on}
                 onClick={() => setNeed(id)}
-                className={`min-h-11 cursor-pointer rounded-full border px-4 text-[15px] font-semibold transition-colors ${on ? "border-ink bg-ink text-white" : "border-line-strong bg-white text-ink hover:border-ink"}`}
+                className={`min-h-10 cursor-pointer rounded-full border px-4 text-sm transition-colors ${on ? "border-ink bg-ink text-white" : "border-field bg-white text-ink hover:border-ink"}`}
               >
-                {f.needs[id]}
+                {c.needs[id]}
               </button>
             );
           })}
         </div>
       </fieldset>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="f-name" className="text-sm font-semibold">
-            {f.name} <span aria-hidden="true">*</span>
-          </label>
-          <input
-            ref={nameRef}
-            id="f-name"
-            name="name"
-            type="text"
-            autoComplete="name"
-            required
-            maxLength={120}
-            value={values.name}
-            onChange={set("name")}
-            aria-invalid={errName}
-            aria-describedby={errName ? "e-name" : undefined}
-            className={`${inputCls} ${errName ? "border-error" : "border-line-strong"}`}
-          />
-          {errName && <span id="e-name" className="text-[13px] text-error">{f.errName}</span>}
+          <label htmlFor="f-name" className="text-sm font-medium">{c.fName} <span aria-hidden="true">*</span></label>
+          <input ref={nameRef} id="f-name" name="name" type="text" autoComplete="name" required maxLength={120} value={v.name} onChange={set("name")} aria-invalid={errName} aria-describedby={errName ? "e-name" : undefined} className={`${field} ${errName ? "border-error" : "border-field"}`} />
+          {errName && <span id="e-name" className="text-[13px] text-error">{c.errName}</span>}
         </div>
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="f-company" className="text-sm font-semibold">{f.company}</label>
-          <input id="f-company" name="company" type="text" autoComplete="organization" maxLength={160} value={values.company} onChange={set("company")} className={`${inputCls} border-line-strong`} />
-        </div>
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="f-email" className="text-sm font-semibold">
-            {f.email} <span aria-hidden="true">*</span>
-          </label>
-          <input
-            ref={emailRef}
-            id="f-email"
-            name="email"
-            type="email"
-            autoComplete="email"
-            required
-            maxLength={200}
-            placeholder="you@company.kz"
-            value={values.email}
-            onChange={set("email")}
-            aria-invalid={errEmail}
-            aria-describedby={errEmail ? "e-email" : undefined}
-            className={`${inputCls} ${errEmail ? "border-error" : "border-line-strong"}`}
-          />
-          {errEmail && <span id="e-email" className="text-[13px] text-error">{f.errEmail}</span>}
-        </div>
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="f-phone" className="text-sm font-semibold">{f.phone}</label>
-          <input id="f-phone" name="phone" type="tel" autoComplete="tel" maxLength={40} placeholder="+7" value={values.phone} onChange={set("phone")} className={`${inputCls} border-line-strong`} />
+          <label htmlFor="f-company" className="text-sm font-medium">{c.fCompany}</label>
+          <input id="f-company" name="company" type="text" autoComplete="organization" maxLength={160} value={v.company} onChange={set("company")} className={`${field} border-field`} />
         </div>
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <label htmlFor="f-msg" className="text-sm font-semibold">{f.message}</label>
-        <textarea
-          id="f-msg"
-          name="message"
-          rows={4}
-          maxLength={4000}
-          placeholder={f.messagePh}
-          value={values.message}
-          onChange={set("message")}
-          className="w-full resize-y rounded-xl border-[1.5px] border-line-strong bg-white px-3.5 py-3 text-base text-ink placeholder:text-[#8a909b] focus:border-ink focus:outline-none"
-        />
+        <label htmlFor="f-contact" className="text-sm font-medium">{c.fContact} <span aria-hidden="true">*</span></label>
+        <input ref={contactRef} id="f-contact" name="contact" type="text" autoComplete="email" required maxLength={200} placeholder={c.fContactPh} value={v.contact} onChange={set("contact")} aria-invalid={errContact} aria-describedby={errContact ? "e-contact" : undefined} className={`${field} ${errContact ? "border-error" : "border-field"}`} />
+        {errContact && <span id="e-contact" className="text-[13px] text-error">{c.errContact}</span>}
+      </div>
+
+      <div className="flex flex-col gap-1.5">
+        <label htmlFor="f-msg" className="text-sm font-medium">{c.fMsg}</label>
+        <textarea id="f-msg" name="message" rows={4} maxLength={4000} placeholder={c.fMsgPh} value={v.message} onChange={set("message")} className="w-full resize-y rounded-[10px] border border-field bg-paper px-3.5 py-3 text-base text-ink placeholder:text-faint focus:border-ink focus:outline-none" />
       </div>
 
       {/* Honeypot: hidden from people, filled in by bots */}
       <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
         <label htmlFor="f-website">Website</label>
-        <input id="f-website" name="website" type="text" tabIndex={-1} autoComplete="off" value={values.website} onChange={set("website")} />
+        <input id="f-website" name="website" type="text" tabIndex={-1} autoComplete="off" value={v.website} onChange={set("website")} />
       </div>
 
       <div aria-live="polite">
         {status === "error" && (
-          <p role="alert" className="m-0 rounded-xl bg-[#FEF3F2] px-4 py-3 text-sm text-error">
-            {f.errGeneric}
-          </p>
+          <p role="alert" className="m-0 rounded-[10px] bg-[#FEF3F2] px-4 py-3 text-sm text-error">{c.errGeneric}</p>
         )}
       </div>
 
-      <button
-        type="submit"
-        disabled={status === "sending"}
-        className="group inline-flex min-h-14 cursor-pointer items-center justify-center gap-2.5 rounded-full border-0 bg-accent px-5 text-[17px] font-bold text-ink transition-opacity disabled:cursor-wait disabled:opacity-70"
-      >
-        {status === "sending" ? f.sending : f.submit}
-        {status !== "sending" && <ArrowRight />}
+      <button type="submit" disabled={status === "sending"} className="inline-flex min-h-[52px] cursor-pointer items-center justify-center gap-2.5 rounded-full border-0 bg-ink px-5 text-base font-medium text-white hover:bg-ink-2 disabled:cursor-wait disabled:opacity-70">
+        {status === "sending" ? c.fSending : c.fSubmit}
+        {status !== "sending" && <span aria-hidden="true">→</span>}
       </button>
       <p className="m-0 text-[13px] text-muted">
-        {f.consentA}{" "}
-        <Link href={privacyHref} className="underline">
-          {f.consentLink}
-        </Link>
-        {f.consentB}
+        {c.consentA}{" "}
+        <Link href={privacyPath[c.lang]} className="underline">{c.consentLink}</Link>
+        {c.consentB}
       </p>
     </form>
   );

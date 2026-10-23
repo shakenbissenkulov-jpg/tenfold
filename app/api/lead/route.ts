@@ -3,10 +3,10 @@ import { NextResponse } from "next/server";
 export const runtime = "nodejs";
 
 const NEEDS = {
-  build: "Создать продукт / Build a product",
-  team: "Усилить команду / Extend team",
-  automate: "Автоматизация или интеграция / Automate or integrate",
-  unsure: "Пока не знаю / Not sure yet",
+  idea: "Есть идея",
+  problem: "Есть проблема в бизнесе",
+  know: "Знаю, что нужно сделать",
+  team: "Нужна команда",
 } as const;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -41,29 +41,24 @@ export async function POST(req: Request) {
   }
 
   // Honeypot: real visitors never see this field. Pretend success so bots learn nothing.
-  if (str(body.website, 200)) {
-    return NextResponse.json({ ok: true });
-  }
+  if (str(body.website, 200)) return NextResponse.json({ ok: true });
 
   const name = str(body.name, 120);
-  const email = str(body.email, 200);
+  const contact = str(body.contact, 200);
   const company = str(body.company, 160);
-  const phone = str(body.phone, 40);
   const message = str(body.message, 4000);
-  const lang = body.lang === "en" ? "en" : "ru";
-  const needKey = (typeof body.need === "string" && body.need in NEEDS ? body.need : "unsure") as keyof typeof NEEDS;
+  const lang = body.lang === "en" ? "EN" : body.lang === "kz" ? "KZ" : "RU";
+  const needKey = (typeof body.need === "string" && body.need in NEEDS ? body.need : "idea") as keyof typeof NEEDS;
 
   const errors: Record<string, string> = {};
   if (!name) errors.name = "required";
-  if (!EMAIL_RE.test(email)) errors.email = "invalid";
+  if (contact.length < 5) errors.contact = "required";
   if (Object.keys(errors).length) {
     return NextResponse.json({ ok: false, error: "validation", fields: errors }, { status: 400 });
   }
 
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
-  if (rateLimited(ip)) {
-    return NextResponse.json({ ok: false, error: "rate_limited" }, { status: 429 });
-  }
+  if (rateLimited(ip)) return NextResponse.json({ ok: false, error: "rate_limited" }, { status: 429 });
 
   const apiKey = process.env.RESEND_API_KEY;
   const to = process.env.LEAD_TO_EMAIL;
@@ -74,22 +69,19 @@ export async function POST(req: Request) {
   }
 
   const rows: [string, string][] = [
-    ["Запрос / Need", NEEDS[needKey]],
-    ["Имя / Name", name],
-    ["Компания / Company", company || "—"],
-    ["Email", email],
-    ["Телефон / Phone", phone || "—"],
-    ["Язык сайта / Site language", lang.toUpperCase()],
+    ["С чем пришли", NEEDS[needKey]],
+    ["Имя", name],
+    ["Компания", company || "—"],
+    ["Контакт", contact],
+    ["Язык сайта", lang],
   ];
 
   const html = `
     <h2 style="font-family:Arial,sans-serif">Новая заявка с сайта Tenfold</h2>
     <table style="font-family:Arial,sans-serif;font-size:14px;border-collapse:collapse">
-      ${rows
-        .map(([k, v]) => `<tr><td style="padding:6px 16px 6px 0;color:#545A66">${esc(k)}</td><td style="padding:6px 0"><b>${esc(v)}</b></td></tr>`)
-        .join("")}
+      ${rows.map(([k, v]) => `<tr><td style="padding:6px 16px 6px 0;color:#5A5F69">${esc(k)}</td><td style="padding:6px 0"><b>${esc(v)}</b></td></tr>`).join("")}
     </table>
-    <p style="font-family:Arial,sans-serif;font-size:14px;color:#545A66;margin-top:16px">Сообщение / Message:</p>
+    <p style="font-family:Arial,sans-serif;font-size:14px;color:#5A5F69;margin-top:16px">Об идее или задаче:</p>
     <p style="font-family:Arial,sans-serif;font-size:14px;white-space:pre-wrap">${esc(message || "—")}</p>
   `;
   const text = `${rows.map(([k, v]) => `${k}: ${v}`).join("\n")}\n\n${message || "—"}`;
@@ -101,7 +93,7 @@ export async function POST(req: Request) {
       body: JSON.stringify({
         from,
         to: to.split(",").map((s) => s.trim()).filter(Boolean),
-        reply_to: email,
+        ...(EMAIL_RE.test(contact) ? { reply_to: contact } : {}),
         subject: `Заявка: ${name}${company ? ` (${company})` : ""} — ${NEEDS[needKey]}`,
         html,
         text,

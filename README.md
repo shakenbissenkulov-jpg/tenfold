@@ -2,8 +2,8 @@
 
 Marketing site for Tenfold. Next.js (App Router) + TypeScript + Tailwind CSS.
 
-- `/` — Russian (default) · `/en` — English · Kazakh is shown as "coming soon"
-- `/privacy`, `/en/privacy` — privacy policy (**placeholder — replace before launch**)
+- `/` — Russian (default) · `/en` — English · `/kz` — Kazakh
+- `/privacy`, `/en/privacy`, `/kz/privacy` — privacy policy (**placeholder — replace before launch**)
 - `/api/lead` — lead form endpoint, emails each inquiry via [Resend](https://resend.com)
 
 ## Run locally
@@ -42,12 +42,15 @@ Until the domain is verified you can use `Tenfold <onboarding@resend.dev>` as th
 
 All copy lives in `content/`:
 
-- `content/ru.ts`, `content/en.ts` — page text in each language (keep both in sync)
-- `content/site.ts` — contact email, phone, site name, case-study link
+- `content/ru.ts`, `content/en.ts`, `content/kz.ts` — page text in each language (keep all three in sync)
+- `content/site.ts` — contact email, phone, site URL
 
 Empty email/phone values are hidden on the page.
 
 ## Before launch — open items
+
+- [ ] Kazakh text (`content/kz.ts`) reviewed by a native speaker
+- [ ] SLA response times confirmed by the team
 
 Search the content files for `[` to find every remaining placeholder.
 
@@ -67,4 +70,4 @@ Search the content files for `[` to find every remaining placeholder.
 
 ## Fonts
 
-Unbounded, Manrope and JetBrains Mono are self-hosted from `public/fonts` (SIL Open Font License), with Latin and Cyrillic subsets including Kazakh letters. No requests go to Google.
+Onest is self-hosted from `public/fonts` (SIL Open Font License), with Latin and Cyrillic subsets including Kazakh letters. No requests go to Google.
