@@ -19,7 +19,7 @@ const HYP_STYLE = [
 ];
 
 const SLA_STYLE = [
-  { code: "P1", badge: "bg-ink text-white" },
+  { code: "P1", badge: "bg-[#EF4444] text-ink" },
   { code: "P2", badge: "bg-[#E4E4E0] text-ink" },
   { code: "P3", badge: "bg-sand-2 text-muted" },
 ];
