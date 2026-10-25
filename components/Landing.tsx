@@ -111,12 +111,6 @@ export function Landing({ c }: { c: Content }) {
                 {c.heroCta2}
               </a>
             </div>
-            {site.phone && (
-              <p className="mt-5 text-sm text-on-dark-2">
-                {c.heroCall}{" "}
-                <a href={`tel:${tel}`} className="text-white underline-offset-4 hover:text-white hover:underline">{site.phone}</a>
-              </p>
-            )}
 
             <figure aria-label={c.trackerAria} className="m-0 mt-[clamp(64px,8vw,104px)] w-full max-w-[760px] rounded-2xl border border-white/12 bg-white/6 px-7 py-6 text-left">
               <div className="flex items-center justify-between gap-3 text-[13px] text-on-dark-2">
@@ -144,7 +138,7 @@ export function Landing({ c }: { c: Content }) {
 
         {/* STATS */}
         <section aria-label={c.statsLabel} className={`${wrap} pt-[clamp(80px,9vw,120px)]`}>
-          <div className="grid grid-cols-1 gap-px overflow-hidden rounded-[20px] border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-px overflow-hidden rounded-[20px] border border-line bg-line sm:grid-cols-3">
             {c.stats.map((s, i) => (
               <div key={s.k} className="bg-white px-8 py-10 text-center">
                 <CountUp value={s.v} delay={(i % 3) * 120} className="text-[clamp(44px,4.6vw,64px)] font-light leading-none tracking-[-0.04em]" />
@@ -169,23 +163,15 @@ export function Landing({ c }: { c: Content }) {
           <div className="mt-7 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
             {c.payments.map((pm) => (
               <div key={pm.name} className="card flex flex-col rounded-2xl border border-line bg-white p-7">
-                <div className="text-2xl font-normal tracking-[-0.02em]">{pm.name}</div>
-                {pm.alt && <div className="mt-1 text-sm text-muted">{pm.alt}</div>}
-                <p className="mt-3 text-[15px] text-body">{pm.desc}</p>
-                <dl className="m-0 mt-auto pt-6 text-[14px]">
-                  <div className="border-t border-line-2 py-3">
-                    <dt className="text-[12px] text-faint">{c.payProsLabel}</dt>
-                    <dd className="m-0 mt-1 flex gap-2"><span aria-hidden="true" className="font-medium text-[#2E7D5B]">+</span><span>{pm.pros}</span></dd>
-                  </div>
-                  <div className="border-t border-line-2 py-3">
-                    <dt className="text-[12px] text-faint">{c.payConsLabel}</dt>
-                    <dd className="m-0 mt-1 flex gap-2"><span aria-hidden="true" className="font-medium text-error">−</span><span>{pm.cons}</span></dd>
-                  </div>
-                  <div className="border-t border-line-2 pt-3">
-                    <dt className="text-[12px] text-faint">{c.payWhenLabel}</dt>
-                    <dd className="m-0 mt-1 text-muted">{pm.when}</dd>
-                  </div>
-                </dl>
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="text-2xl font-normal tracking-[-0.02em]">{pm.name}</div>
+                  {pm.alt && <span className="rounded-md bg-sand-2 px-2.5 py-1 text-[13px] text-body">{pm.alt}</span>}
+                </div>
+                <p className="mb-6 mt-3 text-[15px] text-body">{pm.desc}</p>
+                <div className="mt-auto border-t border-line-2 pt-4 text-[14px]">
+                  <div className="text-[12px] text-faint">{c.payWhenLabel}</div>
+                  <div className="mt-1 text-muted">{pm.when}</div>
+                </div>
               </div>
             ))}
           </div>

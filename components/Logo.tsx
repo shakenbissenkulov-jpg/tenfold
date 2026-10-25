@@ -1,26 +1,55 @@
 /**
- * Tenfold logo: "10x" mark (vector, traced from the brand artwork) + "Tenfold" wordmark.
- * The mark uses currentColor, so it works on light and dark backgrounds.
+ * Tenfold logo "10x Tenfold" — vector, traced from the brand artwork.
+ * "10x" is drawn as paths; "Tenfold" is set in Onest Bold and fitted to the artwork's width.
+ * Uses currentColor, so it works on light and dark backgrounds.
  */
+
+const ONE = <rect x="0" y="5" width="35" height="186" />;
+const ZERO = <path fillRule="evenodd" d="M138 0a82 98 0 1 0 0.001 0ZM138 37a45 61 0 1 1 -0.001 0Z" />;
+const X = (
+  <>
+    <path d="M256 64H299L380 183H337Z" />
+    <path d="M339 64H380L299 183H256Z" />
+  </>
+);
+
+/** "10x" mark only (380 × 196). */
 export function Mark({ height = 24, className = "" }: { height?: number; className?: string }) {
-  const width = Math.round((height * 368) / 171);
   return (
-    <svg width={width} height={height} viewBox="0 0 368 171" fill="currentColor" aria-hidden="true" className={className}>
-      <path d="M0 28L56 0H62V171H30V34L0 62Z" />
-      <path fillRule="evenodd" d="M142 -1a75 86 0 1 0 0.001 0ZM142 39a37 46 0 1 1 -0.001 0Z" />
-      <path d="M224 35H274L368 171H318Z" />
-      <path d="M315 35H365L264 171H219Z" />
+    <svg width={Math.round((height * 380) / 196)} height={height} viewBox="0 0 380 196" fill="currentColor" aria-hidden="true" className={className}>
+      {ONE}
+      {ZERO}
+      {X}
     </svg>
   );
 }
 
+/** Full lockup "10x Tenfold" (1166 × 196). */
 export function Logo({ height = 24, onDark = false }: { height?: number; onDark?: boolean }) {
   return (
-    <span className={`inline-flex items-center ${onDark ? "text-white" : "text-ink"}`} style={{ gap: Math.round(height * 0.3) }}>
-      <Mark height={height} />
-      <span className="font-semibold leading-none tracking-[-0.01em]" style={{ fontSize: Math.round(height * 0.83) }}>
+    <svg
+      role="img"
+      aria-label="10x Tenfold"
+      width={Math.round((height * 1166) / 196)}
+      height={height}
+      viewBox="0 0 1166 196"
+      fill="currentColor"
+      className={onDark ? "text-white" : "text-ink"}
+    >
+      {ONE}
+      {ZERO}
+      {X}
+      <text
+        x="431"
+        y="177"
+        fontFamily="Onest, system-ui, sans-serif"
+        fontWeight="700"
+        fontSize="236"
+        textLength="735"
+        lengthAdjust="spacingAndGlyphs"
+      >
         Tenfold
-      </span>
-    </span>
+      </text>
+    </svg>
   );
 }

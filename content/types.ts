@@ -46,10 +46,8 @@ export interface Content {
   paths: Record<PathId, Path>;
   payTitle: string;
   paySub: string;
-  payProsLabel: string;
-  payConsLabel: string;
   payWhenLabel: string;
-  payments: { name: string; alt?: string; desc: string; pros: string; cons: string; when: string }[];
+  payments: { name: string; alt?: string; desc: string; when: string }[];
   dataEyebrow: string;
   dataTitle: string;
   dataSub: string;
