@@ -4,6 +4,10 @@
  * Uses currentColor, so it works on light and dark backgrounds.
  */
 
+/** Vertical squash: <1 makes the logo flatter. */
+const SQUASH = 0.8;
+const H = 196 * SQUASH;
+
 const ONE = <rect x="0" y="5" width="35" height="186" />;
 const ZERO = <path fillRule="evenodd" d="M138 0a82 98 0 1 0 0.001 0ZM138 37a45 61 0 1 1 -0.001 0Z" />;
 const X = (
@@ -16,10 +20,12 @@ const X = (
 /** "10x" mark only (380 × 196). */
 export function Mark({ height = 24, className = "" }: { height?: number; className?: string }) {
   return (
-    <svg width={Math.round((height * 380) / 196)} height={height} viewBox="0 0 380 196" fill="currentColor" aria-hidden="true" className={className}>
-      {ONE}
-      {ZERO}
-      {X}
+    <svg width={Math.round((height * 380) / H)} height={height} viewBox={`0 0 380 ${H}`} fill="currentColor" aria-hidden="true" className={className}>
+      <g transform={`scale(1 ${SQUASH})`}>
+        {ONE}
+        {ZERO}
+        {X}
+      </g>
     </svg>
   );
 }
@@ -30,12 +36,13 @@ export function Logo({ height = 24, onDark = false }: { height?: number; onDark?
     <svg
       role="img"
       aria-label="10x Tenfold"
-      width={Math.round((height * 1166) / 196)}
+      width={Math.round((height * 1166) / H)}
       height={height}
-      viewBox="0 0 1166 196"
+      viewBox={`0 0 1166 ${H}`}
       fill="currentColor"
       className={onDark ? "text-white" : "text-ink"}
     >
+      <g transform={`scale(1 ${SQUASH})`}>
       {ONE}
       {ZERO}
       {X}
@@ -50,6 +57,7 @@ export function Logo({ height = 24, onDark = false }: { height?: number; onDark?
       >
         Tenfold
       </text>
+      </g>
     </svg>
   );
 }
