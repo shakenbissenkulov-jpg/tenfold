@@ -24,7 +24,7 @@ npm run dev                  # http://localhost:3000
    | --- | --- |
    | `NEXT_PUBLIC_SITE_URL` | Your production URL, e.g. `https://tenfold.kz` |
    | `RESEND_API_KEY` | API key from Resend |
-   | `LEAD_TO_EMAIL` | Inbox that receives inquiries (comma-separate several) |
+   | `LEAD_TO_EMAIL` | Inbox(es) that receive inquiries, comma-separated, e.g. `hello@tenfold.kz,shaken.bissenkulov@gmail.com` |
    | `LEAD_FROM_EMAIL` | Sender on a domain verified in Resend, e.g. `Tenfold <leads@tenfold.kz>` |
 
 4. Deploy, then add your domain under **Settings → Domains**.
@@ -54,7 +54,7 @@ Empty email/phone values are hidden on the page.
 
 Search the content files for `[` to find every remaining placeholder.
 
-- [ ] Contact email and phone in `content/site.ts`
+- [ ] Business email in `content/site.ts` (phone is set)
 - [ ] `[X дней]` / `[X days]` — proposal and team-match timing (process section)
 - [ ] `[X рабочих дней]` — start time (FAQ)
 - [ ] Engineer vetting steps (Why Tenfold, FAQ)

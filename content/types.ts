@@ -46,7 +46,15 @@ export interface Content {
   paths: Record<PathId, Path>;
   payTitle: string;
   paySub: string;
-  payments: { when: string; name: string; desc: string }[];
+  payProsLabel: string;
+  payConsLabel: string;
+  payWhenLabel: string;
+  payments: { name: string; alt?: string; desc: string; pros: string; cons: string; when: string }[];
+  dataEyebrow: string;
+  dataTitle: string;
+  dataSub: string;
+  dataTools: string;
+  dataItems: { title: string; body: string }[];
   guarTitle: string;
   guarSub: string;
   slaTitle: string;
@@ -58,7 +66,7 @@ export interface Content {
   guarantees: { title: string; body: string }[];
   svcTitle: string;
   svcSub: string;
-  services: { name: string; desc: string }[];
+  services: { name: string; desc: string; tags: string[] }[];
   svcMore: string;
   svcCtaKicker: string;
   svcCtaTitle: string;
@@ -96,6 +104,9 @@ export interface Content {
   thanks: string;
   okBody: string;
   okAgain: string;
+  callLead: string;
+  heroCall: string;
+  callShort: string;
   footCity: string;
   footPrivacy: string;
   privacyTitle: string;

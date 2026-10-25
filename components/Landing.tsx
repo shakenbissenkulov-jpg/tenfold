@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Content } from "@/content/types";
 import { privacyPath, site } from "@/content/site";
 import { Faq } from "./Faq";
+import { CountUp } from "./CountUp";
 import { Header } from "./Header";
 import { Logo } from "./Logo";
 import { LeadForm } from "./LeadForm";
@@ -84,6 +85,9 @@ export function Landing({ c }: { c: Content }) {
     ...(site.phone ? { telephone: site.phone } : {}),
   };
 
+  const tel = site.phone.replace(/[^\d+]/g, "");
+  const pad = (i: number) => String(i + 1).padStart(2, "0");
+
   return (
     <>
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-[10px] focus:bg-ink focus:px-4 focus:py-2 focus:text-white">
@@ -107,6 +111,12 @@ export function Landing({ c }: { c: Content }) {
                 {c.heroCta2}
               </a>
             </div>
+            {site.phone && (
+              <p className="mt-5 text-sm text-on-dark-2">
+                {c.heroCall}{" "}
+                <a href={`tel:${tel}`} className="text-white underline-offset-4 hover:text-white hover:underline">{site.phone}</a>
+              </p>
+            )}
 
             <figure aria-label={c.trackerAria} className="m-0 mt-[clamp(64px,8vw,104px)] w-full max-w-[760px] rounded-2xl border border-white/12 bg-white/6 px-7 py-6 text-left">
               <div className="flex items-center justify-between gap-3 text-[13px] text-on-dark-2">
@@ -134,11 +144,11 @@ export function Landing({ c }: { c: Content }) {
 
         {/* STATS */}
         <section aria-label={c.statsLabel} className={`${wrap} pt-[clamp(80px,9vw,120px)]`}>
-          <div className="grid grid-cols-1 gap-10 text-center sm:grid-cols-3">
-            {c.stats.map((s) => (
-              <div key={s.k}>
-                <div className="text-[clamp(48px,5.2vw,72px)] font-light leading-none tracking-[-0.04em]">{s.v}</div>
-                <div className="mx-auto mt-3.5 max-w-[260px] text-[15px] text-muted">{s.k}</div>
+          <div className="grid grid-cols-1 gap-px overflow-hidden rounded-[20px] border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+            {c.stats.map((s, i) => (
+              <div key={s.k} className="bg-white px-8 py-10 text-center">
+                <CountUp value={s.v} delay={(i % 3) * 120} className="text-[clamp(44px,4.6vw,64px)] font-light leading-none tracking-[-0.04em]" />
+                <div className="mx-auto mt-4 max-w-[260px] text-[15px] text-muted">{s.k}</div>
               </div>
             ))}
           </div>
@@ -156,14 +166,54 @@ export function Landing({ c }: { c: Content }) {
             <h3 className="h3 m-0 flex-[1_1_420px]">{c.payTitle}</h3>
             <p className="m-0 max-w-[440px] flex-[1_1_320px] text-muted">{c.paySub}</p>
           </div>
-          <div className="mt-7 grid grid-cols-1 gap-4 md:grid-cols-3">
+          <div className="mt-7 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
             {c.payments.map((pm) => (
-              <div key={pm.name} className="card rounded-2xl border border-line bg-white p-7">
-                <div className="text-[13px] text-muted">{pm.when}</div>
-                <div className="mt-3 text-2xl font-normal tracking-[-0.02em]">{pm.name}</div>
-                <p className="mt-2.5 text-[15px] text-muted">{pm.desc}</p>
+              <div key={pm.name} className="card flex flex-col rounded-2xl border border-line bg-white p-7">
+                <div className="text-2xl font-normal tracking-[-0.02em]">{pm.name}</div>
+                {pm.alt && <div className="mt-1 text-sm text-muted">{pm.alt}</div>}
+                <p className="mt-3 text-[15px] text-body">{pm.desc}</p>
+                <dl className="m-0 mt-auto pt-6 text-[14px]">
+                  <div className="border-t border-line-2 py-3">
+                    <dt className="text-[12px] text-faint">{c.payProsLabel}</dt>
+                    <dd className="m-0 mt-1 flex gap-2"><span aria-hidden="true" className="font-medium text-[#2E7D5B]">+</span><span>{pm.pros}</span></dd>
+                  </div>
+                  <div className="border-t border-line-2 py-3">
+                    <dt className="text-[12px] text-faint">{c.payConsLabel}</dt>
+                    <dd className="m-0 mt-1 flex gap-2"><span aria-hidden="true" className="font-medium text-error">−</span><span>{pm.cons}</span></dd>
+                  </div>
+                  <div className="border-t border-line-2 pt-3">
+                    <dt className="text-[12px] text-faint">{c.payWhenLabel}</dt>
+                    <dd className="m-0 mt-1 text-muted">{pm.when}</dd>
+                  </div>
+                </dl>
               </div>
             ))}
+          </div>
+        </section>
+
+        {/* DATA-DRIVEN */}
+        <section id="data" aria-labelledby="data-title" className="dark mt-[clamp(96px,11vw,152px)] bg-ink text-white">
+          <div className={`${wrap} py-[clamp(80px,9vw,128px)]`}>
+            <div className="flex flex-wrap items-end justify-between gap-8">
+              <div className="max-w-[720px]">
+                <p className="m-0 text-sm text-on-dark-2">{c.dataEyebrow}</p>
+                <h2 id="data-title" className="h2 mt-4">{c.dataTitle}</h2>
+                <p className="mt-5 text-[17px] text-on-dark">{c.dataSub}</p>
+              </div>
+              <span className="inline-flex items-center gap-2 rounded-[10px] border border-white/15 px-3.5 py-2 text-sm text-on-dark">
+                <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-ok" />
+                {c.dataTools}
+              </span>
+            </div>
+            <div className="mt-12 grid grid-cols-1 gap-px overflow-hidden rounded-2xl bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
+              {c.dataItems.map((d, i) => (
+                <div key={d.title} className="bg-ink p-7">
+                  <div className="text-sm text-on-dark-3">{pad(i)}</div>
+                  <h3 className="mt-6 text-lg font-medium">{d.title}</h3>
+                  <p className="mt-2 text-[15px] text-on-dark">{d.body}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -196,7 +246,7 @@ export function Landing({ c }: { c: Content }) {
               ))}
             </div>
           </div>
-          <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3">
+          <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
             {c.guarantees.map((g) => (
               <div key={g.title} className="card rounded-2xl border border-line bg-white p-7">
                 <div aria-hidden="true" className="flex h-9 w-9 items-center justify-center rounded-full bg-sand-2 text-accent">
@@ -209,52 +259,72 @@ export function Landing({ c }: { c: Content }) {
           </div>
         </section>
 
-        {/* SERVICES */}
+        {/* STREAMS */}
         <section id="services" aria-labelledby="svc-title" className={`${wrap} ${sectionPad}`}>
-          <h2 id="svc-title" className="h2 m-0">{c.svcTitle}</h2>
-          <p className="mt-[18px] max-w-[560px] text-muted">{c.svcSub}</p>
-          <div className="mt-12 grid grid-cols-1 gap-x-5 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
-            {c.services.map((sv, i) => (
-              <div key={sv.name} className="flex flex-col">
-                <div aria-hidden="true" className="flex aspect-[4/3] items-center justify-center rounded-xl bg-sand text-ink">
-                  <ServiceIcon i={i} />
-                </div>
-                <h3 className="mt-5 text-xl font-medium tracking-[-0.01em]">{sv.name}</h3>
-                <p className="mt-2 text-[15px] text-muted">{sv.desc}</p>
-                <a href="#contact" className="mt-3.5 inline-flex min-h-8 items-center text-[15px] text-ink hover:underline hover:underline-offset-4">{c.svcMore}</a>
-              </div>
-            ))}
-            <a href="#contact" className="dark flex aspect-[4/3] flex-col justify-between gap-6 rounded-xl bg-ink p-7 text-white hover:bg-ink-2 hover:text-white">
-              <span className="text-sm text-on-dark-2">{c.svcCtaKicker}</span>
-              <span className="text-[clamp(24px,2.2vw,30px)] font-normal leading-[1.15] tracking-[-0.02em]">{c.svcCtaTitle}</span>
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <div>
+              <h2 id="svc-title" className="h2 m-0">{c.svcTitle}</h2>
+              <p className="mt-[18px] max-w-[560px] text-muted">{c.svcSub}</p>
+            </div>
+            <a href="#contact" className="inline-flex min-h-12 items-center gap-2.5 rounded-[10px] border border-ink px-5 text-ink hover:bg-ink hover:text-white">
+              {c.heroCta} <span aria-hidden="true">→</span>
             </a>
           </div>
+          <ul className="m-0 mt-12 list-none border-t border-ink p-0">
+            {c.services.map((sv, i) => (
+              <li key={sv.name}>
+                <a
+                  href="#contact"
+                  className="group grid grid-cols-1 items-center gap-x-8 gap-y-4 border-b border-line py-8 text-ink hover:text-ink md:grid-cols-[48px_minmax(0,1fr)_minmax(0,1.25fr)_48px] md:py-10"
+                >
+                  <span className="text-sm text-faint transition-colors duration-300 group-hover:text-accent">{pad(i)}</span>
+                  <span className="flex items-center gap-4 transition-transform duration-300 motion-safe:group-hover:translate-x-1">
+                    <span aria-hidden="true" className="flex h-12 w-12 flex-none items-center justify-center rounded-xl bg-sand text-ink transition-colors duration-300 group-hover:bg-ink group-hover:text-white [&_svg]:h-6 [&_svg]:w-auto">
+                      <ServiceIcon i={i} />
+                    </span>
+                    <h3 className="m-0 text-[clamp(24px,2.6vw,36px)] font-normal leading-tight tracking-[-0.025em]">{sv.name}</h3>
+                  </span>
+                  <span className="flex flex-col gap-3">
+                    <span className="text-[15px] text-muted">{sv.desc}</span>
+                    <span className="flex flex-wrap gap-1.5">
+                      {sv.tags.map((t) => (
+                        <span key={t} className="rounded-md bg-sand-2 px-2.5 py-1 text-[13px] text-body transition-colors duration-300 group-hover:bg-sand">{t}</span>
+                      ))}
+                    </span>
+                  </span>
+                  <span aria-hidden="true" className="hidden h-12 w-12 items-center justify-center justify-self-end rounded-[10px] border border-line text-lg transition-colors duration-300 group-hover:border-ink group-hover:bg-ink group-hover:text-white md:flex">→</span>
+                </a>
+              </li>
+            ))}
+          </ul>
         </section>
 
         {/* REVIEWS */}
         <section id="reviews" aria-labelledby="rev-title" className={`${wrap} ${sectionPad}`}>
           <h2 id="rev-title" className="h2 m-0">{c.revTitle}</h2>
-          <div className="mt-12 grid grid-cols-1 gap-4 lg:grid-cols-2">
-            {c.reviews.map((rv, i) => (
-              <figure key={i} className="card m-0 flex flex-col rounded-[20px] border border-line bg-white p-7 md:p-10">
-                <blockquote className="m-0 text-[clamp(20px,1.8vw,24px)] font-normal leading-[1.4] tracking-[-0.01em]">«{rv.quote}»</blockquote>
-                <figcaption className="mt-auto flex items-center gap-4 pt-9">
-                  <div role="img" aria-label={rv.photoAlt} className="flex h-14 w-14 flex-none items-center justify-center rounded-full bg-sand text-faint">
-                    <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="12" cy="8" r="4" /><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6" /></svg>
+          {c.reviews.slice(0, 1).map((rv) => (
+            <figure key={rv.site} className="card m-0 mt-12 grid grid-cols-1 overflow-hidden rounded-[20px] border border-line bg-white lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
+              <div className="p-8 md:p-12">
+                <svg aria-hidden="true" width="36" height="28" viewBox="0 0 32 24" className="text-accent" fill="currentColor"><path d="M0 24V14C0 6 4 1 12 0l1 4c-4 1-6 4-6 8h6v12H0zm19 0V14c0-8 4-13 12-14l1 4c-4 1-6 4-6 8h6v12H19z" /></svg>
+                <blockquote className="m-0 mt-6 text-[clamp(22px,2.2vw,30px)] font-normal leading-[1.35] tracking-[-0.015em]">{rv.quote}</blockquote>
+              </div>
+              <figcaption className="flex flex-col justify-between gap-8 border-t border-line bg-sand-2 p-8 md:p-12 lg:border-l lg:border-t-0">
+                <div className="flex items-center gap-4">
+                  <div role="img" aria-label={rv.photoAlt} className="flex h-16 w-16 flex-none items-center justify-center rounded-full bg-sand text-faint">
+                    <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="12" cy="8" r="4" /><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6" /></svg>
                   </div>
                   <div className="min-w-0">
                     <div className="font-medium">{rv.name}</div>
                     <div className="text-sm text-muted">{rv.role}</div>
-                    {rv.url.startsWith("http") ? (
-                      <a href={rv.url} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-7 items-center text-sm hover:underline hover:underline-offset-4">↳ {rv.site}</a>
-                    ) : (
-                      <span className="inline-flex min-h-7 items-center text-sm text-muted">↳ {rv.site}</span>
-                    )}
                   </div>
-                </figcaption>
-              </figure>
-            ))}
-          </div>
+                </div>
+                <a href={rv.url} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 items-center justify-between gap-3 rounded-[10px] border border-ink bg-white px-5 text-ink hover:bg-ink hover:text-white">
+                  <span>{rv.site}</span>
+                  <span aria-hidden="true">↗</span>
+                </a>
+              </figcaption>
+            </figure>
+          ))}
         </section>
 
         {/* ABOUT */}
@@ -305,11 +375,17 @@ export function Landing({ c }: { c: Content }) {
                   </li>
                 ))}
               </ol>
-              {(site.email || site.phone) && (
-                <div className="mt-8 flex flex-wrap gap-8 text-[15px]">
-                  {site.email && <a href={`mailto:${site.email}`} className="text-white underline">{site.email}</a>}
-                  {site.phone && <a href={`tel:${site.phone.replace(/\s/g, "")}`} className="text-white">{site.phone}</a>}
+              {site.phone && (
+                <div className="mt-10 max-w-[460px] rounded-2xl border border-white/12 p-6">
+                  <div className="text-sm text-on-dark-2">{c.callLead}</div>
+                  <a href={`tel:${tel}`} className="mt-2 inline-flex min-h-11 items-center gap-3 text-[clamp(24px,2.4vw,32px)] font-normal tracking-[-0.02em] text-white underline-offset-4 hover:text-white hover:underline">
+                    <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z" /></svg>
+                    {site.phone}
+                  </a>
                 </div>
+              )}
+              {site.email && (
+                <a href={`mailto:${site.email}`} className="mt-4 inline-block text-white underline">{site.email}</a>
               )}
             </div>
             <div className="min-w-0 flex-[1_1_480px] rounded-[20px] bg-white p-6 text-ink md:p-10">
@@ -328,6 +404,7 @@ export function Landing({ c }: { c: Content }) {
           <div className="flex flex-wrap gap-6">
             <a href="#process" className="text-[#D5D8DE] hover:text-white">{c.navProcess}</a>
             <a href="#services" className="text-[#D5D8DE] hover:text-white">{c.navServices}</a>
+            {site.phone && <a href={`tel:${tel}`} className="text-[#D5D8DE] hover:text-white">{site.phone}</a>}
             <Link href={privacyPath[c.lang]} className="text-[#D5D8DE] hover:text-white">{c.footPrivacy}</Link>
             <span>© 2026 Tenfold</span>
           </div>

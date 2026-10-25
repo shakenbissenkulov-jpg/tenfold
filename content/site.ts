@@ -9,7 +9,7 @@ export const site = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://tenfold-psi.vercel.app",
   // TODO: public contact email and phone, e.g. "hello@your-domain.kz", "+7 700 000 00 00"
   email: "",
-  phone: "",
+  phone: "+7 771 747 7020",
 };
 
 export const homePath: Record<Lang, string> = { ru: "/", en: "/en", kz: "/kz" };
