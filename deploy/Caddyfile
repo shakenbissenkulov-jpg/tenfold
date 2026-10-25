@@ -1,0 +1,8 @@
+tenfold.kz {
+	encode zstd gzip
+	reverse_proxy app:3000
+}
+
+www.tenfold.kz {
+	redir https://tenfold.kz{uri} permanent
+}

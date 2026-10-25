@@ -2,6 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // Self-contained server bundle for the Docker image (deploy/); Vercel ignores it.
+  output: "standalone",
   async headers() {
     return [
       {

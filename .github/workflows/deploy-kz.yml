@@ -1,0 +1,25 @@
+# Deploys to the tenfold.kz VPS on every push to main.
+# Needs repository secrets: VPS_HOST (server IP), VPS_SSH_KEY (private key for root, or set VPS_USER).
+name: Deploy tenfold.kz
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check secrets
+        id: check
+        env:
+          HOST: ${{ secrets.VPS_HOST }}
+        run: echo "ready=$([ -n "$HOST" ] && echo yes || echo no)" >> "$GITHUB_OUTPUT"
+      - name: Deploy over SSH
+        if: steps.check.outputs.ready == 'yes'
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER || 'root' }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          command_timeout: 20m
+          script: bash /opt/tenfold/deploy/update.sh

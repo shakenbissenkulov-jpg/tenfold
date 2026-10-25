@@ -38,6 +38,18 @@ Without `RESEND_API_KEY` and `LEAD_TO_EMAIL` the form shows an error to the visi
 3. **API Keys → Create** (permission: sending access) and paste into Vercel.
 Until the domain is verified you can use `Tenfold <onboarding@resend.dev>` as the sender, but Resend then only delivers to the email address of your Resend account.
 
+## Deploy to tenfold.kz (VPS in Kazakhstan)
+
+.kz rules require the site (A/AAAA/CNAME records) to be served from a server physically in Kazakhstan, so tenfold.kz runs on a VPS rather than Vercel. `deploy/` holds a Docker setup: the Next.js app behind Caddy, which issues HTTPS certificates automatically.
+
+1. Rent an Ubuntu 22.04/24.04 VPS in Kazakhstan (1 vCPU, 2 GB RAM is enough).
+2. DNS for tenfold.kz: `A @ → <VPS IP>` and `A www → <VPS IP>`.
+3. On the server as root: `curl -fsSL https://raw.githubusercontent.com/shakenbissenkulov-jpg/tenfold/main/deploy/setup.sh | bash`
+4. `nano /opt/tenfold/deploy/.env` — fill in `RESEND_API_KEY`, `LEAD_TO_EMAIL`, `LEAD_FROM_EMAIL`.
+5. `bash /opt/tenfold/deploy/update.sh` — builds and starts the site on https://tenfold.kz.
+
+Auto-deploy: add repository secrets `VPS_HOST` (server IP) and `VPS_SSH_KEY` (private SSH key allowed on the server; `VPS_USER` if not root). Every push to main then runs `update.sh` on the server via `.github/workflows/deploy-kz.yml`. Without the secrets the workflow does nothing.
+
 ## Editing content
 
 All copy lives in `content/`:
