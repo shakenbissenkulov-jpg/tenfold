@@ -102,6 +102,7 @@ export interface Content {
   thanks: string;
   okBody: string;
   okAgain: string;
+  popup: { title: string; sub: string; label: string; submit: string; sending: string; err: string; done: string; doneSub: string; close: string; later: string };
   callLead: string;
   heroCall: string;
   callShort: string;

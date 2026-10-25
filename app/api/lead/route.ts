@@ -7,6 +7,7 @@ const NEEDS = {
   problem: "Есть проблема в бизнесе",
   know: "Знаю, что нужно сделать",
   team: "Нужна команда",
+  callback: "Перезвонить (окно на сайте)",
 } as const;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -48,10 +49,11 @@ export async function POST(req: Request) {
   const company = str(body.company, 160);
   const message = str(body.message, 4000);
   const lang = body.lang === "en" ? "EN" : body.lang === "kz" ? "KZ" : "RU";
-  const needKey = (typeof body.need === "string" && body.need in NEEDS ? body.need : "idea") as keyof typeof NEEDS;
+  const callback = body.source === "callback";
+  const needKey = callback ? "callback" : (typeof body.need === "string" && body.need in NEEDS ? body.need : "idea") as keyof typeof NEEDS;
 
   const errors: Record<string, string> = {};
-  if (!name) errors.name = "required";
+  if (!name && !callback) errors.name = "required";
   if (contact.length < 5) errors.contact = "required";
   if (Object.keys(errors).length) {
     return NextResponse.json({ ok: false, error: "validation", fields: errors }, { status: 400 });
@@ -70,7 +72,7 @@ export async function POST(req: Request) {
 
   const rows: [string, string][] = [
     ["С чем пришли", NEEDS[needKey]],
-    ["Имя", name],
+    ["Имя", name || "—"],
     ["Компания", company || "—"],
     ["Контакт", contact],
     ["Язык сайта", lang],
@@ -94,7 +96,7 @@ export async function POST(req: Request) {
         from,
         to: to.split(",").map((s) => s.trim()).filter(Boolean),
         ...(EMAIL_RE.test(contact) ? { reply_to: contact } : {}),
-        subject: `Заявка: ${name}${company ? ` (${company})` : ""} — ${NEEDS[needKey]}`,
+        subject: callback ? `Перезвонить: ${contact}` : `Заявка: ${name}${company ? ` (${company})` : ""} — ${NEEDS[needKey]}`,
         html,
         text,
       }),

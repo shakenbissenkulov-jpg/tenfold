@@ -4,6 +4,7 @@ import { privacyPath, site } from "@/content/site";
 import { Faq } from "./Faq";
 import { CountUp } from "./CountUp";
 import { Header } from "./Header";
+import { CallbackModal } from "./CallbackModal";
 import { Logo } from "./Logo";
 import { LeadForm } from "./LeadForm";
 import { Process } from "./Process";
@@ -95,6 +96,7 @@ export function Landing({ c }: { c: Content }) {
       </a>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Header c={c} />
+      <CallbackModal c={c} />
 
       <main id="main">
         {/* HERO */}

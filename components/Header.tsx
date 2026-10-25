@@ -76,19 +76,19 @@ export function Header({ c }: { c: Content }) {
       <header className="sticky top-0 z-20 bg-paper/90 backdrop-blur-md">
         <nav
           aria-label={c.navLabel}
-          className="mx-auto grid h-[68px] max-w-[1320px] grid-cols-[auto_1fr] items-center gap-4 px-4 text-[15px] sm:px-8 xl:grid-cols-[1fr_auto_1fr]"
+          className="mx-auto grid h-[68px] max-w-[1440px] grid-cols-[auto_1fr] items-center gap-4 px-4 text-[15px] sm:px-8 xl:grid-cols-[1fr_auto_1fr]"
         >
-          <div className="hidden min-w-0 items-center gap-6 xl:flex">
+          <Link href={homePath[c.lang]} aria-label="Tenfold" className="flex items-center justify-self-start text-ink">
+            <Logo height={22} />
+          </Link>
+          <div className="hidden items-center gap-8 xl:flex">
             <NavLink id="process" label={c.navProcess} active={active === "process"} />
             <NavLink id="services" label={c.navServices} active={active === "services"} />
             <NavLink id="guarantees" label={c.navGuarantees} active={active === "guarantees"} />
-          </div>
-          <Link href={homePath[c.lang]} aria-label="Tenfold" className="flex items-center text-ink">
-            <Logo height={22} />
-          </Link>
-          <div className="flex items-center justify-end gap-3 sm:gap-5">
             <NavLink id="reviews" label={c.navReviews} active={active === "reviews"} />
             <NavLink id="faq" label="FAQ" active={active === "faq"} />
+          </div>
+          <div className="flex items-center justify-end gap-3">
             {site.phone && (
               <a
                 href={`tel:${tel}`}
