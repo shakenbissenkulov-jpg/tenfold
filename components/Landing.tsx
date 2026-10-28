@@ -308,7 +308,7 @@ export function Landing({ c }: { c: Content }) {
                 <div className="flex flex-col gap-8 lg:sticky lg:top-[120px]">
                 <div>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={rv.photo} alt={rv.name} width={700} height={1000} loading="lazy" className="block aspect-[7/10] w-full max-w-[380px] rounded-2xl bg-ink object-cover" />
+                  <img src={rv.photo} alt={rv.name} width={854} height={1280} loading="lazy" className="block h-auto w-full max-w-[380px] rounded-2xl" />
                   <div className="mt-5 text-lg font-medium">{rv.name}</div>
                   <div className="mt-1 text-sm text-muted">{rv.role}</div>
                 </div>
