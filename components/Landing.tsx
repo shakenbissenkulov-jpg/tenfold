@@ -306,13 +306,11 @@ export function Landing({ c }: { c: Content }) {
               </div>
               <figcaption className="border-t border-line bg-sand-2 p-8 md:p-12 lg:border-l lg:border-t-0">
                 <div className="flex flex-col gap-8 lg:sticky lg:top-[120px]">
-                <div className="flex items-center gap-4">
+                <div>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={rv.photo} alt={rv.name} width={80} height={80} loading="lazy" className="h-20 w-20 flex-none rounded-full object-cover" />
-                  <div className="min-w-0">
-                    <div className="font-medium">{rv.name}</div>
-                    <div className="text-sm text-muted">{rv.role}</div>
-                  </div>
+                  <img src={rv.photo} alt={rv.name} width={640} height={800} loading="lazy" className="block aspect-[4/5] w-full max-w-[360px] rounded-2xl object-cover" />
+                  <div className="mt-5 text-lg font-medium">{rv.name}</div>
+                  <div className="mt-1 text-sm text-muted">{rv.role}</div>
                 </div>
                 <a href={rv.url} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 items-center justify-between gap-3 rounded-[10px] border border-ink bg-white px-5 text-ink hover:bg-ink hover:text-white">
                   <span>{rv.site}</span>
