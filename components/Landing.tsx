@@ -5,6 +5,7 @@ import { Faq } from "./Faq";
 import { CountUp } from "./CountUp";
 import { Header } from "./Header";
 import { CallbackModal } from "./CallbackModal";
+import { Reveal } from "./Reveal";
 import { Logo } from "./Logo";
 import { LeadForm } from "./LeadForm";
 import { Process } from "./Process";
@@ -97,6 +98,7 @@ export function Landing({ c }: { c: Content }) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Header c={c} />
       <CallbackModal c={c} />
+      <Reveal />
 
       <main id="main">
         {/* HERO */}
@@ -295,19 +297,18 @@ export function Landing({ c }: { c: Content }) {
               <div className="p-8 md:p-12">
                 <svg aria-hidden="true" width="36" height="28" viewBox="0 0 32 24" className="text-accent" fill="currentColor"><path d="M0 24V14C0 6 4 1 12 0l1 4c-4 1-6 4-6 8h6v12H0zm19 0V14c0-8 4-13 12-14l1 4c-4 1-6 4-6 8h6v12H19z" /></svg>
                 <blockquote className="m-0 mt-6">
-                  <p className="m-0 text-[clamp(22px,2.2vw,30px)] font-normal leading-[1.35] tracking-[-0.015em]">{rv.lead}</p>
-                  <div className="mt-8 flex flex-col gap-4 border-t border-line pt-8 text-[16px] leading-relaxed text-body">
+                  <div className="flex flex-col gap-5 text-[clamp(17px,1.35vw,19px)] leading-[1.6] text-ink">
                     {rv.body.map((para) => (
                       <p key={para.slice(0, 24)} className="m-0">{para}</p>
                     ))}
                   </div>
                 </blockquote>
               </div>
-              <figcaption className="flex flex-col justify-start gap-8 border-t border-line bg-sand-2 p-8 md:p-12 lg:border-l lg:border-t-0">
+              <figcaption className="border-t border-line bg-sand-2 p-8 md:p-12 lg:border-l lg:border-t-0">
+                <div className="flex flex-col gap-8 lg:sticky lg:top-[120px]">
                 <div className="flex items-center gap-4">
-                  <div aria-hidden="true" className="flex h-16 w-16 flex-none items-center justify-center rounded-full bg-ink text-lg font-medium text-white">
-                    {rv.name.split(" ").map((w) => w[0]).join("").slice(0, 2)}
-                  </div>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={rv.photo} alt={rv.name} width={80} height={80} loading="lazy" className="h-20 w-20 flex-none rounded-full object-cover" />
                   <div className="min-w-0">
                     <div className="font-medium">{rv.name}</div>
                     <div className="text-sm text-muted">{rv.role}</div>
@@ -317,6 +318,7 @@ export function Landing({ c }: { c: Content }) {
                   <span>{rv.site}</span>
                   <span aria-hidden="true">↗</span>
                 </a>
+                </div>
               </figcaption>
             </figure>
           ))}
@@ -328,10 +330,7 @@ export function Landing({ c }: { c: Content }) {
             <div className="min-w-0 flex-[999_1_520px]">
               <p className="m-0 text-sm text-muted">{c.aboutLabel}</p>
               <h2 id="about-title" className="h2 mt-4">{c.aboutTitle}</h2>
-              <p className="mt-6 max-w-[640px] text-[clamp(17px,1.4vw,19px)] text-body">{c.aboutText}</p>
-            </div>
-            <div role="img" aria-label={c.aboutPhoto} className="flex aspect-[4/5] max-h-[520px] min-w-0 flex-[1_1_320px] items-center justify-center rounded-xl bg-sand text-sm text-faint">
-              {c.aboutPhoto}
+              <p className="mt-6 max-w-[820px] text-[clamp(17px,1.4vw,20px)] text-body">{c.aboutText}</p>
             </div>
           </div>
         </section>

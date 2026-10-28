@@ -134,8 +134,8 @@ export const en: Content = {
   revTitle: "In our clients’ words.",
   reviews: [
     {
-      lead: "Overall, I’m satisfied with our collaboration. The team proved to be a reliable, professional IT partner that is comfortable to work with and to keep growing the product with.",
-      body: ["The team handled the assigned tasks very well. The project launch went in stages, in line with the agreed specification.", "I’d especially note the high engagement of every team member, their professional approach and ownership of the result. Fast response to critical and urgent tasks was particularly valuable — issues were resolved quickly, without unnecessary delays.", "I’d also highlight the team’s technical expertise. Throughout the project, the specialists always offered concrete solutions, even for complex and non-standard tasks. There was never a situation where the team couldn’t propose a way to implement something."],
+      body: ["The team handled the assigned tasks very well. The project launch went in stages, in line with the agreed specification.", "I’d especially note the high engagement of every team member, their professional approach and ownership of the result. Fast response to critical and urgent tasks was particularly valuable — issues were resolved quickly, without unnecessary delays.", "I’d also highlight the team’s technical expertise. Throughout the project, the specialists always offered concrete solutions, even for complex and non-standard tasks. There was never a situation where the team couldn’t propose a way to implement something.", "Overall, I’m satisfied with our collaboration. The team proved to be a reliable, professional IT partner that is comfortable to work with and to keep growing the product with."],
+      photo: "/reviews/takhir.jpg",
       name: "Takhir Dzhanvakhu",
       role: "Head of e-commerce, KazakhYuvelir JSC",
       url: "https://kazakhyuvelir.kz/",
@@ -146,7 +146,6 @@ export const en: Content = {
   aboutTitle: "Partners, not a contractor.",
   aboutText:
     "Tenfold is a team of developers, designers and product managers. We care about our clients’ products: if you have KPIs or OKRs, we make them our own and reach them together. We don’t inflate timelines or sell hours — what matters more to us is that you come back with a new project and recommend us to people we can help too.",
-  aboutPhoto: "[Team photo]",
   faqTitle: "Frequently asked questions.",
   faqMore: "Didn’t find an answer?",
   faqMoreLink: "Ask an expert",
