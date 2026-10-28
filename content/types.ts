@@ -69,12 +69,11 @@ export interface Content {
   svcCtaKicker: string;
   svcCtaTitle: string;
   revTitle: string;
-  reviews: { quote: string; name: string; role: string; url: string; site: string; photoAlt: string }[];
+  reviews: { lead: string; body: string[]; name: string; role: string; url: string; site: string }[];
   aboutLabel: string;
   aboutTitle: string;
   aboutText: string;
   aboutPhoto: string;
-  values: { title: string; body: string }[];
   faqTitle: string;
   faqMore: string;
   faqMoreLink: string;

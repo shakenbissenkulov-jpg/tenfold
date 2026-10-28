@@ -294,12 +294,19 @@ export function Landing({ c }: { c: Content }) {
             <figure key={rv.site} className="card m-0 mt-12 grid grid-cols-1 overflow-hidden rounded-[20px] border border-line bg-white lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
               <div className="p-8 md:p-12">
                 <svg aria-hidden="true" width="36" height="28" viewBox="0 0 32 24" className="text-accent" fill="currentColor"><path d="M0 24V14C0 6 4 1 12 0l1 4c-4 1-6 4-6 8h6v12H0zm19 0V14c0-8 4-13 12-14l1 4c-4 1-6 4-6 8h6v12H19z" /></svg>
-                <blockquote className="m-0 mt-6 text-[clamp(22px,2.2vw,30px)] font-normal leading-[1.35] tracking-[-0.015em]">{rv.quote}</blockquote>
+                <blockquote className="m-0 mt-6">
+                  <p className="m-0 text-[clamp(22px,2.2vw,30px)] font-normal leading-[1.35] tracking-[-0.015em]">{rv.lead}</p>
+                  <div className="mt-8 flex flex-col gap-4 border-t border-line pt-8 text-[16px] leading-relaxed text-body">
+                    {rv.body.map((para) => (
+                      <p key={para.slice(0, 24)} className="m-0">{para}</p>
+                    ))}
+                  </div>
+                </blockquote>
               </div>
-              <figcaption className="flex flex-col justify-between gap-8 border-t border-line bg-sand-2 p-8 md:p-12 lg:border-l lg:border-t-0">
+              <figcaption className="flex flex-col justify-start gap-8 border-t border-line bg-sand-2 p-8 md:p-12 lg:border-l lg:border-t-0">
                 <div className="flex items-center gap-4">
-                  <div role="img" aria-label={rv.photoAlt} className="flex h-16 w-16 flex-none items-center justify-center rounded-full bg-sand text-faint">
-                    <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="12" cy="8" r="4" /><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6" /></svg>
+                  <div aria-hidden="true" className="flex h-16 w-16 flex-none items-center justify-center rounded-full bg-ink text-lg font-medium text-white">
+                    {rv.name.split(" ").map((w) => w[0]).join("").slice(0, 2)}
                   </div>
                   <div className="min-w-0">
                     <div className="font-medium">{rv.name}</div>
@@ -326,14 +333,6 @@ export function Landing({ c }: { c: Content }) {
             <div role="img" aria-label={c.aboutPhoto} className="flex aspect-[4/5] max-h-[520px] min-w-0 flex-[1_1_320px] items-center justify-center rounded-xl bg-sand text-sm text-faint">
               {c.aboutPhoto}
             </div>
-          </div>
-          <div className="mt-14 grid grid-cols-1 gap-x-6 gap-y-8 border-t border-line pt-8 sm:grid-cols-2 lg:grid-cols-4">
-            {c.values.map((vl) => (
-              <div key={vl.title}>
-                <h3 className="m-0 text-lg font-medium">{vl.title}</h3>
-                <p className="mt-2 text-[15px] text-muted">{vl.body}</p>
-              </div>
-            ))}
           </div>
         </section>
 
